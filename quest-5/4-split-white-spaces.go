@@ -1,7 +1,8 @@
 package main
 
 func SplitWhiteSpaces(s string) []string {
-	var result []string
+	result := make([]string, 0)
+	//If you use make instead of var, you can bypass the nil check
 	start := -1
 	for i, char := range s {
 		if char != ' ' && char != '\t' && char != '\n' && start == -1 {
@@ -13,9 +14,6 @@ func SplitWhiteSpaces(s string) []string {
 	}
 	if start != -1 {
 		result = append(result, s[start:])
-	}
-	if len(result) == 0 {
-		return []string{}
 	}
 	return result
 }
