@@ -32,7 +32,7 @@ func Atoi(s string) int {
 			sign = -1
 		}
 	}
-	for i := 0; i < strLen(s) && runeStr[i] == '0'; i++ {
+	for i := startFromIndex; i < strLen(s) && runeStr[i] == '0'; i++ {
 		startFromIndex++
 	}
 	for i := startFromIndex; i < strLen(s); i++ {
