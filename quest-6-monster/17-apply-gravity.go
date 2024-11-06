@@ -1,4 +1,4 @@
-package challange
+package challenge
 
 import (
 	"strings"
@@ -10,49 +10,51 @@ func ApplyGravity(s string) string {
 	}
 
 	lines := strings.Split(s, "\n")
-	maxWidth := 0
+	width := 0
+
 	for _, line := range lines {
-		if len(line) > maxWidth {
-			maxWidth = len(line)
+		if len(line) > width {
+			width = len(line)
 		}
 	}
 
-	height := len(lines)
-	grid := make([][]rune, height)
+	result := make([][]rune, len(lines))
 
-	for i := 0; i < height; i++ {
-		grid[i] = make([]rune, maxWidth)
-		line := lines[i]
-		for j := 0; j < maxWidth; j++ {
-			if j < len(line) {
-				grid[i][j] = rune(line[j])
+	for i, line := range lines {
+		result[i] = make([]rune, width)
+
+		for j, ch := range line {
+			result[i][j] = ch
+		}
+	}
+
+	for i := 0; i < len(result); i++ {
+		colChars := []rune{}
+
+		for j := 0; j < len(result); j++ {
+			if result[j][i] != ' ' {
+				colChars = append(colChars, result[j][i])
+			}
+		}
+
+		for j := 0; j < len(result); j++ {
+			if j < len(colChars) {
+				result[j][i] = colChars[len(colChars)-1-j]
 			} else {
-				grid[i][j] = ' '
+				result[j][i] = ' '
 			}
 		}
 	}
 
-	for col := 0; col < maxWidth; col++ {
-		chars := []rune{}
-		for row := 0; row < height; row++ {
-			if grid[row][col] != ' ' {
-				chars = append(chars, grid[row][col])
-			}
-		}
-		row := height - 1
-		for i := len(chars) - 1; i >= 0; i-- {
-			grid[row][col] = chars[i]
-			row--
-		}
-		for ; row >= 0; row-- {
-			grid[row][col] = ' '
+	rows := []string{}
+
+	for _, row := range result {
+		strRow := string(row)
+		trimmedRow := strings.TrimRight(strRow, " ")
+		if trimmedRow != "" {
+			rows = append(rows, trimmedRow)
 		}
 	}
 
-	resultLines := make([]string, height)
-	for i := 0; i < height; i++ {
-		resultLines[i] = strings.TrimRight(string(grid[i]), " ")
-	}
-
-	return strings.Join(resultLines, "\n")
+	return strings.Join(rows, "\n")
 }
