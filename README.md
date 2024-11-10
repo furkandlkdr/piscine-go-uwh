@@ -1,6 +1,6 @@
 # Uniworkhub Piscine Program - GoLang Exam and Quest Solutions
 
-This repository contains a collection of important code solutions from the "Piscine" program by Uniworkhub, a software school that focuses on teaching GoLang. The **Piscine** program includes a series of **checkpoint**(exams) and **quests** designed to test and improve problem-solving skills in GoLang.
+This repository contains a collection of important code solutions from the "Piscine" program by [Uniworkhub](https://uniworkhub.com/), a software school that starts with teaching GoLang. The **Piscine** program includes a series of **checkpoint**(exams) and **quests** designed to test and improve problem-solving skills in GoLang.
 
 ## Contents
 
