@@ -2,57 +2,53 @@ package main
 
 import "fmt"
 
-func myMod(current, limit int) int {
-	return (current + limit) % limit
+func rowSum(row []int) int {
+	sum := 0
+	for i := 0; i < len(row); i++ {
+		sum += row[i]
+	}
+	return sum
 }
 
-func sumMaxRow(matrix [][]int) int {
-	max := 0
-	for _, row := range matrix {
-		sum := 0
-		for _, num := range row {
-			sum += num
-		}
-		if sum > max {
-			max = sum
-		}
-	}
-	return max
+func modd(n1, n2 int) int {
+	return (n1 + n2 + n2) % n2
 }
 
 func LargestV(matrix [][]int) int {
-	if len(matrix) == 0 {
+	height := len(matrix)
+	if height == 0 {
 		return 0
 	}
-	height := len(matrix)
 	width := len(matrix[0])
-	myMat := make([][]int, height)
-	for i := range matrix {
-		myMat[i] = make([]int, width)
-	}
+	myMt := make([][]int, height)
+
 	for row := 0; row < height; row++ {
+		myMt[row] = make([]int, width)
 		for col := 0; col < width; col++ {
-			if width%2 == 1 {
-				if col <= width/2 {
-					myMat[row][col] = matrix[myMod(row+col, height)][myMod(col, width)]
-				} else {
-					myMat[row][col] = matrix[myMod("WHATTTTTTTTTT", height)][myMod(col, width)]
+			half := width / 2
+			myCol := col + row
+			if width%2 == 0 {
+				if col == half {
+					myCol = row + col - 1
+				} else if col > half {
+					myCol = width - 1 - col + row
 				}
 			} else {
-				if col < width/2 {
-					myMat[row][col] = matrix[myMod(row+col, height)][myMod(col, width)]
-				} else if col == width/2 {
-					myMat[row][col] = matrix[myMod(row+col-1, height)][myMod(col-1, width)]
-				} else {
-					myMat[row][col] = matrix[myMod(width+row-col-1, height)][myMod(col, width)]
+				if col > half {
+					myCol = width - 1 - col + row
 				}
 			}
+			myMt[row][col] = matrix[modd(myCol, height)][col]
 		}
 	}
-	for i := range myMat {
-		fmt.Println(myMat[i])
+	// calculate result
+	max := rowSum(myMt[0])
+	for i := 1; i < len(myMt); i++ {
+		if max < rowSum(myMt[i]) {
+			max = rowSum(myMt[i])
+		}
 	}
-	return sumMaxRow(myMat)
+	return max
 }
 
 func main() {
