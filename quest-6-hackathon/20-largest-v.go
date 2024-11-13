@@ -2,12 +2,18 @@ package main
 
 import "fmt"
 
-func rowSum(row []int) int {
-	sum := 0
-	for i := 0; i < len(row); i++ {
-		sum += row[i]
+func maxRowSum(matrix [][]int) int {
+	maxSum := 0
+	for _, row := range matrix {
+		sum := 0
+		for _, val := range row {
+			sum += val
+		}
+		if sum > maxSum {
+			maxSum = sum
+		}
 	}
-	return sum
+	return maxSum
 }
 
 func modd(n1, n2 int) int {
@@ -27,28 +33,16 @@ func LargestV(matrix [][]int) int {
 		for col := 0; col < width; col++ {
 			half := width / 2
 			myCol := col + row
-			if width%2 == 0 {
-				if col == half {
-					myCol = row + col - 1
-				} else if col > half {
-					myCol = width - 1 - col + row
-				}
-			} else {
-				if col > half {
-					myCol = width - 1 - col + row
-				}
+			if col > half {
+				myCol = width - (col - row) - 1
+			} else if width%2 == 0 && col == half {
+				myCol = row + col - 1
 			}
 			myMt[row][col] = matrix[modd(myCol, height)][col]
 		}
 	}
-	// calculate result
-	max := rowSum(myMt[0])
-	for i := 1; i < len(myMt); i++ {
-		if max < rowSum(myMt[i]) {
-			max = rowSum(myMt[i])
-		}
-	}
-	return max
+
+	return maxRowSum(myMt)
 }
 
 func main() {
